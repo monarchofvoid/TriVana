@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRIVANA - Exoplanet Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Upload</a></li>
+                <li><a href="#">Visualize</a></li>
+                <li class="logo"><a href="#">TRIVANA</a></li>
+                <li><a href="#">Explore</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- 2. Hero / Welcome Section -->
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <h1>A World Away: Hunting for Exoplanets with AI</h1>
+                <p>Upload your own light curve or search NASA’s database to discover planets around distant stars.</p>
+                <div class="cta-buttons">
+                    <button id="showUploadBtn" class="btn btn-primary">Upload Data</button>
+                    <button id="showSearchBtn" class="btn btn-secondary">Search Star ID</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. File Upload / Star Search Section -->
+        <section id="upload-search" class="upload-search-section">
+            <h2>Discover Your Planet</h2>
+            <div class="input-area">
+                <div id="uploadBox" class="upload-box">
+                    <div id="fileDisplay" class="file-display-area">
+                        <div class="file-display-top">
+                            <div class="file-info-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                </svg>
+                                <span id="fileName"></span>
+                            </div>
+                            <button id="clearFileBtn" class="clear-file-btn">&times;</button>
+                        </div>
+                    </div>
+                    <div class="change-file-container" id="changeFileContainer">
+                        <button id="changeFileBtn" class="btn-link-style">Select a different file</button>
+                    </div>
+                    <div id="uploadPrompt" class="upload-prompt-area">
+                        <p>Drag & Drop your CSV/Light Curve file here</p>
+                        <span>or</span>
+                        <button id="selectFileBtn" class="btn btn-tertiary">Select File</button>
+                    </div>
+                </div>
+                <input type="file" id="fileInput" hidden>
+                <div id="searchBox" class="search-box">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <input id="searchInput" type="text" placeholder="Enter known Planet ID..." autocomplete="off">
+                    <button id="clearBtn" class="clear-btn">&times;</button>
+                    
+                    <div id="searchResultsContainer" class="search-results-container">
+                        <div id="resultsCount" class="results-count"></div>   
+                        <div id="virtualScrollWindow" class="virtual-scroll-window">
+                            <div id="virtualScrollContent" class="virtual-scroll-content">
+                                <!-- The actual, visible items will be rendered here by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary analyze-btn">Analyze</button>
+        </section>
+        
+        <!-- 4. Results / Planet Visualizer Section (Initially hidden) -->
+        <section id="results" class="results-section">
+            <h2>Ye jagha main simulation ke liye h</h2>
+            <!-- Placeholder for 3D viewer, stats, and graphs -->
+        </section>
+
+        <!-- 5. Dataset Explorer Section -->
+        <section id="dataset-explorer" class="dataset-explorer-section">
+            <h2>Explore Known Worlds</h2>
+            <p>Select a preloaded exoplanet to see its characteristics and data.</p>
+            <div id="react-exoplanet-viewer"></div>
+        </section>
+
+        <!-- 6. About Section -->
+        <section id="about" class="about-section">
+            <div class="container">
+                <div class="header">
+                    <h1>Exoplanet Transit Detection</h1>
+                    <p>How NASA Measures Light Curves to Discover Distant Worlds</p>
+                </div>
+                
+                <div class="infographic">
+                    <div class="transit-view">
+                        <h3 class="section-title">Transit View (Side Perspective)</h3>
+                        <svg id="transitSVG" width="100%" height="300" viewBox="0 0 500 300">
+                            <!-- Background stars -->
+                            <circle cx="50" cy="50" r="1" fill="white" opacity="0.6"/>
+                            <circle cx="150" cy="80" r="0.8" fill="white" opacity="0.4"/>
+                            <circle cx="400" cy="60" r="1.2" fill="white" opacity="0.5"/>
+                            <circle cx="450" cy="120" r="0.9" fill="white" opacity="0.3"/>
+                            <circle cx="80" cy="200" r="1.1" fill="white" opacity="0.4"/>
+                            <circle cx="420" cy="250" r="0.7" fill="white" opacity="0.5"/>
+                            
+                            <!-- Orbital path indicator -->
+                            <ellipse cx="250" cy="150" rx="120" ry="8" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="5,5"/>
+                            
+                            <!-- Star -->
+                            <circle id="star" cx="250" cy="150" r="40" class="star">
+                                <animate attributeName="fill" values="#ffeb3b;#ffc107;#ffeb3b" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                            
+                            <!-- Planet -->
+                            <circle id="planet" cx="370" cy="150" r="12" fill="#2196f3" class="planet"/>
+                            
+                            <!-- Labels -->
+                            <text x="250" y="210" text-anchor="middle" fill="white" font-size="14">Host Star</text>
+                            <text x="370" y="130" text-anchor="middle" fill="white" font-size="12" id="planetLabel">Exoplanet</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="light-curve">
+                        <h3 class="section-title">Light Curve Graph</h3>
+                        <svg id="graphSVG" width="100%" height="300" viewBox="0 0 500 300">
+                            <!-- Grid lines -->
+                            <g class="grid">
+                                <line x1="50" y1="50" x2="50" y2="250" class="grid-line"/>
+                                <line x1="50" y1="50" x2="450" y2="50" class="grid-line"/>
+                                <line x1="50" y1="100" x2="450" y2="100" class="grid-line"/>
+                                <line x1="50" y1="150" x2="450" y2="150" class="grid-line"/>
+                                <line x1="50" y1="200" x2="450" y2="200" class="grid-line"/>
+                                <line x1="50" y1="250" x2="450" y2="250" class="grid-line"/>
+                                <line x1="100" y1="50" x2="100" y2="250" class="grid-line"/>
+                                <line x1="200" y1="50" x2="200" y2="250" class="grid-line"/>
+                                <line x1="300" y1="50" x2="300" y2="250" class="grid-line"/>
+                                <line x1="400" y1="50" x2="400" y2="250" class="grid-line"/>
+                            </g>
+                            
+                            <!-- Axes -->
+                            <line x1="50" y1="250" x2="450" y2="250" stroke="white" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <line x1="50" y1="250" x2="50" y2="50" stroke="white" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            
+                            <!-- Arrow markers -->
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="white"/>
+                                </marker>
+                            </defs>
+                            
+                            <!-- Axis labels -->
+                            <text x="250" y="280" class="axis-label">Time</text>
+                            <text x="25" y="135" class="axis-label" transform="rotate(-90 25 150)">Brightness/Flux</text>
+                            
+                            <!-- Y-axis tick labels -->
+                            <text x="30" y="55" class="axis-label" font-size="10">High</text>
+                            <text x="30" y="155" class="axis-label" font-size="10">Med</text>
+                            <text x="30" y="255" class="axis-label" font-size="10">Low</text>
+                            
+                            <!-- Light curve line -->
+                            <polyline id="lightCurve" points="50,100" fill="none" stroke="#4ecdc4" stroke-width="3"/>
+                            
+                            <!-- Current time indicator -->
+                            <line id="timeIndicator" x1="50" y1="50" x2="50" y2="250" stroke="#ff6b6b" stroke-width="2" opacity="0.7"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button id="playPauseBtn">Play/Pause</button>
+                    <button id="resetBtn">Reset</button>
+                    <label>Speed: <input type="range" id="speedControl" min="0.5" max="5" value="1" step="0.1" onchange="updateSpeed()"></label>
+                    <label>Planet Size: <input type="range" id="planetSize" min="8" max="20" value="12" step="1" onchange="updatePlanetSize()"></label>
+                </div>
+                
+                <div class="explanation">
+                    <h3 style="color: #4ecdc4; margin-top: 0;">How It Works:</h3>
+                    <p><strong>Transit Method:</strong> When an exoplanet passes in front of its host star from our perspective, it blocks a small fraction of the star's light, causing a temporary dip in brightness.</p>
+                    <p><strong>Light Curve:</strong> By continuously measuring the star's brightness over time, we can detect these periodic dips and infer the presence, size, and orbital period of the planet.</p>
+                    <p><strong>The Dip:</strong> The depth of the brightness dip tells us about the planet's size relative to the star - larger planets create deeper dips.</p>
+                    <p><strong>NASA's Kepler and TESS:</strong> Space telescopes like Kepler and TESS have used this method to discover thousands of exoplanets by monitoring the brightness of stars with incredible precision.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+     <!-- 7. Footer -->
+    <footer id="contact" class="site-footer">
+        <p>Powered by data from NASA's Kepler & TESS Missions. Built with open-source libraries.</p>
+        <p>&copy; 2025 TRIVANA Team. <a href="#" class="link">Contact Us</a></p>
+    </footer>
+<script src = "responsive.js"></script>
+<script src = "searchBar.js"></script>
+<script src = "infographic.js"></script>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src = "exploration.js" type = "text/babel"></script>
+</body>
+</html>

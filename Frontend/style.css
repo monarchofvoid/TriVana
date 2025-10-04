@@ -1,0 +1,546 @@
+/* --- [PRESERVED] User's Core Styles --- */
+:root {
+    --background-color: #000108;
+    --text-primary: #e5e5e5;
+    --text-secondary: #9a9a9a;
+    --primary-color: #5851db; /* Purple-blue for buttons, matching the circles */
+    --surface-color: #1a2238;  /* A dark blue for cards and inputs */
+    --border-color: #2a334f;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #9a9a9a #131315; /* thumb, track */
+}
+
+body {
+    background-image: url('compressed.avif'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #E0E0E0;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: -1;
+    pointer-events: none;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #131315; 
+  border-radius: 10px;
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+  background: #9a9a9a;
+  border-radius: 10px;
+  border: 2px solid #0a0a1e; /* blend with background */
+}
+
+/* Hover effect */
+::-webkit-scrollbar-thumb:hover {
+  background: #707070;
+}
+
+.site-header {
+    padding: 20px 0;
+    z-index: 10;
+}
+
+.main-nav {  
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.main-nav .logo a{
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: 2px;
+    cursor: default;
+}
+
+.main-nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 6rem;
+}
+
+.main-nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 10px;
+    transition: color 0.3s ease;
+    text-transform: uppercase;
+    font-weight: 300;
+    letter-spacing: 1.5px;
+}
+
+.main-nav a:hover {
+    color: var(--text-primary); 
+}
+
+.file-display-area {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    background-color: var(--border-color);
+    border-radius: 6px; 
+    width: 100%;
+    padding: 4px 12px; 
+    border: 1px solid var(--surface-color);
+    transition: all 0.3s ease;
+    box-sizing: border-box; 
+}
+
+.file-display-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.file-info-wrapper {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+/* When a file is selected, the 'active' class will be added */
+.file-display-area.active {
+    display: flex; /* Show it */
+}
+
+/* Style the SVG icon */
+.file-display-area svg {
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+    color: var(--text-secondary);
+}
+
+/* Style the file name text */
+.file-display-area span {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adds "..." if the name is too long */
+}
+
+.clear-file-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 0 0 10px;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.clear-file-btn:hover {
+    color: var(--text-primary);
+}
+
+.change-file-container {
+    display: none;
+    margin-top: 16px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 28px;
+}
+
+.change-file-container.active {
+    display: block;
+}
+
+.btn-link-style {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0;
+    text-align: center;
+    transition: opacity 0.2s ease;
+}
+
+.btn-link-style:hover {
+    opacity: 0.8;
+}
+
+/* When a file is displayed, we hide the original upload prompt */
+.upload-prompt-area.hidden {
+    display: none;
+}
+
+main {
+    position: relative;
+    z-index: 1; /* Ensures main content is above blurred circles */
+}
+
+section {
+    padding: 60px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 1rem; }
+h2 { font-size: 2rem; text-align: center; margin-bottom: 2rem; }
+p { color: var(--text-secondary); }
+
+.link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: opacity 0.3s ease;
+}
+.link:hover { opacity: 1.2; }
+
+/* --- 2. Hero Section --- */
+.hero-section {
+    min-height: 60vh; /* Adjusted height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.hero-content { max-width: 800px; }
+.hero-content p { font-size: 1.25rem; margin: 1rem auto 2rem; max-width: 650px; }
+.cta-buttons { display: flex; justify-content: center; gap: 20px; }
+
+/* --- Button Styles --- */
+.btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.controls button {
+    background: var(--primary-color);
+    border: none;
+    color: var(--text-primary);
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: transform 0.2s;
+    margin-right: 10px;
+}
+        
+.controls button:hover {
+    transform: translateY(-3px); box-shadow: 0 4px 15px rgba(88, 81, 219, 0.4);
+}
+
+.btn-primary { background-color: var(--primary-color); color: var(--text-primary); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(88, 81, 219, 0.4); }
+.btn-secondary { background-color: transparent; color: var(--text-primary); border: 2px solid var(--surface-color); }
+.btn-secondary:hover { background-color: var(--surface-color); border-color: var(--surface-color); }
+.btn-tertiary { background-color: var(--surface-color); color: var(--text-primary); }
+
+/* --- 3. Upload/Search Section --- */
+.upload-search-section { text-align: center; }
+.input-area {
+    background-color: var(--surface-color);
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+    border: 1px solid var(--border-color);
+    position: relative; /* Crucial for positioning the search box */
+    height: 200px;
+}
+.upload-box {
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 30px;
+    transition: opacity 0.4s ease, height 0.4s ease, padding 0.4s ease;
+    overflow: hidden;
+}
+.upload-box span { display: block; margin: 10px 0; color: var(--text-secondary); }
+.analyze-btn { margin-top: 20px; }
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 90%; 
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    width: 76%;
+    opacity: 0;
+    pointer-events: none;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 40px;
+    transition: opacity 0.4s ease, top 0.4s ease;
+}
+
+
+.search-box.active {
+    opacity: 1;
+    top: 75%; /* Remains in the lower position */
+    pointer-events: auto;
+}
+
+/* 3. Reduce height and padding when toggled to "make space" */
+.upload-box.shrunk {
+    opacity: 0.2;
+    pointer-events: none;
+    height: 65%; /* Shrink height */
+    padding-top: 0; /* Remove padding to help it shrink */
+    padding-bottom: 0;
+}
+
+.search-box input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    padding: 8px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    width: 20px;
+    height: 20px;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.clear-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+.clear-btn:hover { opacity: 1; }
+
+.search-results-container {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 0 0 8px 8px;
+    margin-top: 4px;
+    z-index: 100;
+}
+
+.results-count {
+    padding: 8px 15px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+     /* Slightly different background */
+}
+
+.virtual-scroll-window {
+    max-height: 280px; /* e.g., 7 items * 40px height */
+    overflow-y: auto;
+    position: relative;
+}
+
+/* This inner container's height is set by JS to match all possible results */
+.virtual-scroll-content {
+    position: relative;
+    width: 100%;
+}
+
+/* Each result item must have a fixed, known height */
+.result-item {
+    position: absolute; /* Position is now controlled by JS */
+    left: 0;
+    right: 0;
+    height: 40px; /* Fixed height */
+    padding: 0 15px; /* Adjust padding for new height */
+    line-height: 40px; /* Vertically center text */
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    box-sizing: border-box; /* Include padding/border in height */
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.result-item:hover {
+    background-color: var(--primary-color);
+    color: var(--text-primary);
+}
+
+/* --- 4 & 5. Results & Dataset Explorer --- */
+.results-section { text-align: center; min-height: 300px; }
+.dataset-explorer-section { text-align: center; }
+.planet-selector-placeholder { margin-top: 30px; }
+
+/* --- 6. About Section --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.8;
+            margin: 10px 0;
+        }
+        
+        .infographic {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .transit-view {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .light-curve {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #4ecdc4;
+        }
+        
+        .controls {
+            justify-content: center;
+            display: flex;
+        }
+        
+        .controls input {
+            margin: 0 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #4ecdc4;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateY(0.65rem);
+        }
+        
+        .explanation {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .star {
+            filter: drop-shadow(0 0 20px #ffeb3b);
+        }
+        
+        .planet {
+            filter: drop-shadow(0 0 5px #2196f3);
+        }
+        
+        .axis-label {
+            font-size: 12px;
+            fill: white;
+            text-anchor: middle;
+        }
+        
+        .grid-line {
+            stroke: rgba(255, 255, 255, 0.2);
+            stroke-width: 0.5;
+        }
+
+        /* --- 7. Footer --- */
+        .site-footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+/* --- Responsive Design --- */
+@media (max-width: 900px) {
+    .main-nav { flex-direction: column; gap: 15px; }
+    .main-nav ul { gap: 20px; flex-wrap: wrap; justify-content: center; }
+}
+
+@media (max-width: 768px) {
+    h1 { font-size: 2rem; }
+    .infographic {
+        grid-template-columns: 1fr;
+    }
+}
