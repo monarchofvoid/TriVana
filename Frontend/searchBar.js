@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+    let selectedKepid = null;  
+    window.getSelectedKepid = () => selectedKepid;
     // --- Element Selections ---
     const searchInput = document.getElementById("searchInput");
     const searchResultsContainer = document.getElementById("searchResultsContainer");
@@ -8,16 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- Configuration & State ---
     let starData = [];
-    let fullFilteredResults = []; // Our "resultBuffer"
+    let fullFilteredResults = [];
     let debounceTimer;
-    
-    const ITEM_HEIGHT = 40; // Must match CSS .result-item height
-    const VISIBLE_WINDOW_HEIGHT = 280; // Must match CSS .virtual-scroll-window max-height
-    // Calculate how many items to render, plus a buffer for smooth scrolling
+
+    const ITEM_HEIGHT = 40;
+    const VISIBLE_WINDOW_HEIGHT = 280;
     const RENDER_AHEAD = 5;
     const NUM_VISIBLE_ITEMS = Math.ceil(VISIBLE_WINDOW_HEIGHT / ITEM_HEIGHT) + RENDER_AHEAD;
 
-    // --- 1. Fetch Data (Same as before) ---
+    // --- 1. Fetch Data ---
     async function loadStarData() {
         try {
             const response = await fetch('star-index.json');
@@ -28,64 +29,60 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- 2. The Search Function (Now with Regex) ---
+    // --- 2. Search Function ---
     function handleSearch(query) {
         if (!query) {
             searchResultsContainer.style.display = 'none';
             return;
         }
 
-        // Create a case-insensitive regular expression from the user's query
         const searchRegex = new RegExp(query, 'i');
 
-        // Filter the full dataset
         fullFilteredResults = starData.filter(item =>
-            searchRegex.test(item.pl_name) || searchRegex.test(item.hostname)
+            searchRegex.test(String(item.kepid)) ||
+            (item.kepler_name && searchRegex.test(item.kepler_name))
         );
 
-        // Update UI feedback
         resultsCount.textContent = `Found ${fullFilteredResults.length} results`;
-        
-        // If there are results, render the virtual list
+
         if (fullFilteredResults.length > 0) {
             searchResultsContainer.style.display = 'block';
-            // Set the total height of the scrollable area
             virtualScrollContent.style.height = `${fullFilteredResults.length * ITEM_HEIGHT}px`;
-            renderVirtualList(); // Initial render
+            renderVirtualList();
         } else {
             searchResultsContainer.style.display = 'none';
         }
     }
-    
-    // --- 3. The Virtualization Render Function ---
+
+    // --- 3. Render Function ---
     function renderVirtualList() {
-        // Get the current scroll position
         const scrollTop = virtualScrollWindow.scrollTop;
-        
-        // Calculate the first item that should be visible
         const startIndex = Math.floor(scrollTop / ITEM_HEIGHT);
-        
-        // Determine the range of items to render
         const endIndex = Math.min(startIndex + NUM_VISIBLE_ITEMS, fullFilteredResults.length);
-        
-        // Clear previous items
         virtualScrollContent.innerHTML = '';
 
-        // Create and position only the visible items
         for (let i = startIndex; i < endIndex; i++) {
             const result = fullFilteredResults[i];
-            
+
             const item = document.createElement('div');
             item.className = 'result-item';
-            item.textContent = result.pl_name;
-            // Position the item absolutely within the tall container
+
+            // ✅ display rule
+            if (result.kepler_name) {
+                item.textContent = `${result.kepler_name} (${result.kepid})`;
+            } else {
+                item.textContent = `${result.kepid}`;
+            }
+
             item.style.top = `${i * ITEM_HEIGHT}px`;
-            
+
+            // ✅ clicking fills input with same formatted string
             item.addEventListener('click', () => {
-                searchInput.value = result.pl_name;
+                searchInput.value = item.textContent;
+                selectedKepid = result.kepid;
                 searchResultsContainer.style.display = 'none';
             });
-            
+
             virtualScrollContent.appendChild(item);
         }
     }
@@ -95,19 +92,19 @@ document.addEventListener("DOMContentLoaded", () => {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             handleSearch(searchInput.value.trim());
-        }, 200); 
+        }, 200);
     });
-    
-    // The magic happens here: re-render on scroll
+
     virtualScrollWindow.addEventListener('scroll', renderVirtualList);
 
-    // Hide results if user clicks elsewhere
     document.addEventListener('click', (event) => {
-        if (!searchBox.contains(event.target)) {
+        if (
+            !searchResultsContainer.contains(event.target) &&
+            event.target !== searchInput
+        ) {
             searchResultsContainer.style.display = 'none';
         }
     });
 
-    // --- Initial Data Load ---
     loadStarData();
 });

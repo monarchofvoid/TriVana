@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #SimContainer{
+            width: 96%;
+            height: 96vh;
+            margin-top: 2vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="SimContainer"> 
+    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/postprocessing@6.23.5/build/postprocessing.min.js"></script>
+<script src="simulator.js"></script>
+</body>
+</html>

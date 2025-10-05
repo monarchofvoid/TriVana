@@ -1,0 +1,26 @@
+STARTLOG
+GAEA	1.3.1.4
+
+START	2025-10-03 23:14:35Z
+END	2025-10-03 23:14:53Z
+TOTAL	0:00:14
+
+RESOLUTION	1024x1024
+BUCKET SIZE	1024x1024
+
+NODE	Range	0:00:00.852
+NODE	Perlin	0:00:00
+NODE	Combine	0:00:00.049
+NODE	Texture	0:00:06.506
+NODE	Slope	0:00:00.06
+NODE	Combine	0:00:00.02
+NODE	Fx	0:00:00.138
+NODE	Combine	0:00:00.04
+NODE	SatMaps	0:00:00.335
+NODE	Normal Map	0:00:00.048
+NODE	Vegetation	0:00:02.039
+NODE	Worselands	0:00:02.18
+NODE	Shatter	0:00:02.248
+
+OUTPUT	D:\Chrome Downloads\silly downloads\hackathon-sem5\3Dsim\Vegetation
+ENDLOG

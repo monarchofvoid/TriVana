@@ -31,8 +31,8 @@
                 <h1>A World Away: Hunting for Exoplanets with AI</h1>
                 <p>Upload your own light curve or search NASA’s database to discover planets around distant stars.</p>
                 <div class="cta-buttons">
-                    <button id="showUploadBtn" class="btn btn-primary">Upload Data</button>
-                    <button id="showSearchBtn" class="btn btn-secondary">Search Star ID</button>
+                    <button id="showUploadBtn" class="btn btn-primary">Explore Mode</button>
+                    <button id="showSearchBtn" class="btn btn-secondary">Demo Mode</button>
                 </div>
             </div>
         </section>
@@ -82,14 +82,21 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary analyze-btn">Analyze</button>
+            <button id="analyzeBtn" class="btn btn-primary analyze-btn">Analyze</button>
+            <div id="analysisResult"></div>
+
         </section>
         
         <!-- 4. Results / Planet Visualizer Section (Initially hidden) -->
-        <section id="results" class="results-section">
-            <h2>Ye jagha main simulation ke liye h</h2>
-            <!-- Placeholder for 3D viewer, stats, and graphs -->
-        </section>
+        <div id="results" class="results-section">
+            <div id="loader" class="loader-container">
+            <div class="spinner"></div>
+            <p>Generating Planet...</p>
+            </div>
+            <div id="SimContainer"></div>
+            <div id="planet-tooltip" class="tooltip"></div>
+            <div id="star-tooltip" class="tooltip"></div>
+        </div>
 
         <!-- 5. Dataset Explorer Section -->
         <section id="dataset-explorer" class="dataset-explorer-section">
@@ -203,8 +210,14 @@
         <p>Powered by data from NASA's Kepler & TESS Missions. Built with open-source libraries.</p>
         <p>&copy; 2025 TRIVANA Team. <a href="#" class="link">Contact Us</a></p>
     </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/postprocessing@6.23.5/build/postprocessing.min.js"></script>
 <script src = "responsive.js"></script>
 <script src = "searchBar.js"></script>
+<script src= "analyze.js"></script>
+<script src= "simulator.js"></script>
 <script src = "infographic.js"></script>
 <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
