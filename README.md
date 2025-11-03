@@ -140,4 +140,3 @@ Developed as part of the NASA Space Apps Challenge – Noida 2025.
 
 ---
 
-If you want, I can also *create a shorter “landing-page style” README* that fits within 1–2 scrolls, perfect for first impressions on GitHub. Do you want me to do that?
